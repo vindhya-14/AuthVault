@@ -184,9 +184,3 @@ Dark-themed login with rate limit lockout warning display.
 Avatar with glow animation, editable fields with change detection.
 
 ---
-
-## Author
-
-**Vindhya R**
-
----
