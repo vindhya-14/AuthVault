@@ -1,0 +1,16 @@
+# Dependencies
+/vendor/
+
+# Composer binary
+composer.phar
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# IDE files
+.vscode/
+.idea/
+
+# Environment
+.env

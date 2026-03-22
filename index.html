@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="AuthVault — Secure user authentication and profile management system.">
+    <title>AuthVault</title>
+    <!-- Bootstrap 5 -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap Icons -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css" rel="stylesheet">
+    <!-- Custom CSS -->
+    <link href="css/style.css" rel="stylesheet">
+    <style>
+        /* ─── Landing-only styles ─────────────────────────── */
+        .landing-hero {
+            position: relative;
+            z-index: 1;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 120px 1.5rem 60px;
+        }
+
+        .landing-hero .hero-badge {
+            margin-bottom: 2.5rem;
+        }
+
+        .landing-title {
+            font-family: var(--font-serif);
+            font-weight: 400;
+            font-style: italic;
+            font-size: clamp(2.8rem, 7vw, 5.5rem);
+            line-height: 1.08;
+            letter-spacing: -0.03em;
+            color: var(--accent);
+            text-shadow: 0 0 60px rgba(56, 189, 248, 0.25);
+            margin-bottom: 1.8rem;
+            max-width: 750px;
+        }
+
+        .landing-title span {
+            color: rgba(255, 255, 255, 0.9);
+            text-shadow: none;
+        }
+
+        .landing-subtitle {
+            font-family: var(--font-sans);
+            font-size: clamp(0.95rem, 1.8vw, 1.2rem);
+            font-weight: 300;
+            color: var(--text-secondary);
+            line-height: 1.8;
+            max-width: 520px;
+            margin-bottom: 3rem;
+        }
+
+        .landing-buttons {
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+            flex-wrap: wrap;
+            justify-content: center;
+            margin-bottom: 5rem;
+        }
+
+        .landing-buttons .btn-primary-custom {
+            width: auto;
+            padding: 0.9rem 2.5rem;
+        }
+
+        /* ── Stats Strip ── */
+        .stats-strip {
+            display: flex;
+            gap: 3rem;
+            padding: 2rem 2.5rem;
+            border-radius: var(--radius-xl);
+            border: 1px solid var(--border-subtle);
+            background: rgba(255, 255, 255, 0.015);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .stats-strip::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, var(--accent-dim), transparent);
+        }
+
+        .stat-item {
+            text-align: center;
+        }
+
+        .stat-value {
+            font-family: var(--font-sans);
+            font-size: 1.8rem;
+            font-weight: 700;
+            letter-spacing: -0.03em;
+            color: var(--text-primary);
+        }
+
+        .stat-value .accent {
+            color: var(--accent);
+        }
+
+        .stat-label {
+            font-family: var(--font-sans);
+            font-size: 0.7rem;
+            font-weight: 500;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            color: var(--text-muted);
+            margin-top: 0.2rem;
+        }
+
+        /* ── Glow orb behind hero ── */
+        .hero-glow-orb {
+            position: absolute;
+            width: 500px;
+            height: 500px;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(56, 189, 248, 0.06) 0%, transparent 70%);
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -55%);
+            z-index: -1;
+            pointer-events: none;
+            animation: orb-pulse 6s ease-in-out infinite alternate;
+        }
+
+        @keyframes orb-pulse {
+            from {
+                opacity: 0.5;
+                transform: translate(-50%, -55%) scale(1);
+            }
+
+            to {
+                opacity: 1;
+                transform: translate(-50%, -55%) scale(1.15);
+            }
+        }
+
+        /* ── Shield Icon ── */
+        .hero-shield {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            background: rgba(56, 189, 248, 0.06);
+            border: 1px solid rgba(56, 189, 248, 0.15);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            color: var(--accent);
+            margin-bottom: 2rem;
+            position: relative;
+            animation: shield-breathe 3s ease-in-out infinite alternate;
+        }
+
+        .hero-shield::after {
+            content: '';
+            position: absolute;
+            inset: -4px;
+            border-radius: 50%;
+            border: 1px solid rgba(56, 189, 248, 0.08);
+            animation: shield-ring 3s ease-in-out infinite alternate;
+        }
+
+        @keyframes shield-breathe {
+            from {
+                box-shadow: 0 0 20px rgba(56, 189, 248, 0.05);
+            }
+
+            to {
+                box-shadow: 0 0 40px rgba(56, 189, 248, 0.15);
+            }
+        }
+
+        @keyframes shield-ring {
+            from {
+                inset: -4px;
+                opacity: 0.3;
+            }
+
+            to {
+                inset: -12px;
+                opacity: 0.8;
+            }
+        }
+
+        /* ── Footer ── */
+        .landing-footer {
+            text-align: center;
+            padding: 2rem 1rem;
+            font-family: var(--font-sans);
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            border-top: 1px solid var(--border-subtle);
+        }
+
+        .landing-footer i {
+            color: var(--accent);
+        }
+
+        /* ── Trust pills ── */
+        .trust-row {
+            display: flex;
+            gap: 0.6rem;
+            flex-wrap: wrap;
+            justify-content: center;
+            margin-bottom: 3rem;
+        }
+
+        .trust-pill {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.35rem;
+            font-family: var(--font-sans);
+            font-size: 0.68rem;
+            font-weight: 500;
+            color: var(--text-muted);
+            padding: 0.35rem 0.8rem;
+            border-radius: var(--radius-pill);
+            border: 1px solid var(--border-subtle);
+            background: rgba(255, 255, 255, 0.02);
+        }
+
+        .trust-pill i {
+            color: var(--accent);
+            font-size: 0.75rem;
+        }
+
+        @media (max-width: 768px) {
+            .stats-strip {
+                flex-direction: column;
+                gap: 1.5rem;
+                padding: 1.5rem;
+            }
+
+            .hero-glow-orb {
+                width: 300px;
+                height: 300px;
+            }
+
+            .trust-row {
+                gap: 0.4rem;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Grid Background -->
+    <div class="grid-bg"></div>
+    <div class="radial-glow"></div>
+
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-custom fixed-top">
+        <div class="container">
+            <a class="navbar-brand" href="index.html">
+                <i class="bi bi-shield-lock-fill"></i> AuthVault
+            </a>
+            <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navMenu">
+                <i class="bi bi-list" style="color: var(--text-primary); font-size: 1.5rem;"></i>
+            </button>
+            <div class="collapse navbar-collapse" id="navMenu">
+                <ul class="navbar-nav ms-auto gap-1" id="navItems">
+                    <li class="nav-item">
+                        <a class="nav-link active" href="index.html"><i class="bi bi-house-door"></i> Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="register.html"><i class="bi bi-person-plus"></i> Register</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="login.html"><i class="bi bi-box-arrow-in-right"></i> Login</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero -->
+    <section class="landing-hero">
+        <div class="hero-glow-orb"></div>
+
+        <!-- Shield Icon -->
+        <div class="hero-shield">
+            <i class="bi bi-shield-lock-fill"></i>
+        </div>
+
+        <!-- Badge -->
+        <div class="hero-badge">
+            <span class="pulse-dot"></span>
+            System Operational
+        </div>
+
+        <!-- Title -->
+        <h1 class="landing-title">
+            Secure your<br><span>digital identity</span>
+        </h1>
+
+        <!-- Subtitle -->
+        <p class="landing-subtitle">
+            Register, authenticate, and manage your profile with end-to-end
+            encrypted sessions and production-grade security.
+        </p>
+
+
+
+        <!-- CTA Buttons -->
+        <div class="landing-buttons">
+            <a href="register.html" class="btn btn-primary-custom">
+                <i class="bi bi-rocket-takeoff"></i> Get Started
+            </a>
+            <a href="login.html" class="btn btn-outline-custom">
+                <i class="bi bi-box-arrow-in-right"></i> Sign In
+            </a>
+        </div>
+
+
+    </section>
+
+    <!-- Footer -->
+    <footer class="landing-footer">
+        <p>&copy; 2026 AuthVault &middot; Built with <i class="bi bi-heart-fill"></i> for security</p>
+    </footer>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script>
+        // Dynamic nav: swap Register/Login with Profile/Logout if logged in
+        (function () {
+            var token = localStorage.getItem('token');
+            var userName = localStorage.getItem('user_name');
+            if (token) {
+                var nav = document.getElementById('navItems');
+                nav.innerHTML =
+                    '<li class="nav-item">' +
+                    '<a class="nav-link active" href="index.html"><i class="bi bi-house-door"></i> Home</a>' +
+                    '</li>' +
+                    '<li class="nav-item">' +
+                    '<a class="nav-link" href="profile.html"><i class="bi bi-person-circle"></i> ' + (userName || 'Profile') + '</a>' +
+                    '</li>' +
+                    '<li class="nav-item">' +
+                    '<a class="nav-link" href="#" id="navLogout"><i class="bi bi-box-arrow-right"></i> Logout</a>' +
+                    '</li>';
+                document.getElementById('navLogout').addEventListener('click', function (e) {
+                    e.preventDefault();
+                    localStorage.removeItem('token');
+                    localStorage.removeItem('user_id');
+                    localStorage.removeItem('user_name');
+                    window.location.href = 'login.html';
+                });
+            }
+        })();
+    </script>
+</body>
+
+</html>
